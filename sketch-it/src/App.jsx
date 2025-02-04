@@ -1,9 +1,10 @@
+import Dropdown from './components/Dropdown'
 import './styles/App.css'
 
 function App() {
 
   return (
-    'Hello'
+    <Dropdown {options}={["a", "b", "c"]}  /> 
   )
 }
 
