@@ -1,5 +1,4 @@
 const Dropdown = ({ options, handleSelect, type, name, required }) => {
-  console.log("Dropdown component loaded");
 
   // timer options - consistent across forms
   const timerOptions = [
