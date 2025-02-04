@@ -1,12 +1,13 @@
-const Dropdown = ({ options, handleSelect, type }) => {
+const Dropdown = ({ options, handleSelect, type, name, required }) => {
     return (
       <div className="dropdown">
-        <select onChange={(e) => handleSelect(e.target.value)} className={type}>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
+        <select name={name} onChange={(e) => handleSelect(e.target.value, type)} className={type} required={required}>
+            <option value="">{name}</option>
+            {options.map((option) => (
+                <option key={option} value={option}>
+                {option}
+                </option>
+            ))}
         </select>
       </div>
     );
