@@ -1,5 +1,6 @@
 import Dropdown from "./components/Dropdown";
 import Form from "./components/Form";
+import Tab from "./components/Tab";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
 
@@ -18,7 +19,7 @@ function App() {
         name: "People",
         type: "subject",
         required: true,
-        options: ["All", "Portrait", "Female Portrait", "Male Portrait"],
+        options: ["All", "Portrait", "Female Portrait", "Male Portrait", "Face Expressions", "Poses"],
       },
       { name: "Select Timer", type: "timer", required: true },
     ],
@@ -27,7 +28,7 @@ function App() {
         name: "Body Parts",
         type: "subject",
         required: true,
-        options: ["Eyes", "Mouth", "Nose"],
+        options: ["All", "Eyes", "Mouth", "Nose", "Hands", "Feet", "Ears"],
       },
       { name: "Select Timer", type: "timer", required: true },
     ],
@@ -36,7 +37,37 @@ function App() {
         name: "Animals",
         type: "subject",
         required: true,
-        options: ["Mammals", "Reptiles", "Insects"],
+        options: ["Mammals", "Birds", "Fish", "Reptiles", "Anphibians", "Insects"],
+      },
+      { name: "Select Timer", type: "timer", required: true },
+    ],
+
+    nature: [
+      {
+        name: "Nature",
+        type: "subject",
+        required: true,
+        options: ["Landscapes", "Plants", "Trees", "Flowers", "Fruits", "Mountains", "Sea", "Sky"],
+      },
+      { name: "Select Timer", type: "timer", required: true },
+    ],
+
+    buildings: [
+      {
+        name: "Buildings",
+        type: "subject",
+        required: true,
+        options: ["Architecture", "Sculptures", "Houses", "Streets"],
+      },
+      { name: "Select Timer", type: "timer", required: true },
+    ],
+
+    other: [
+      {
+        name: "Other",
+        type: "subject",
+        required: true,
+        options: ["Still Life", "Food"],
       },
       { name: "Select Timer", type: "timer", required: true },
     ],
@@ -57,18 +88,21 @@ function App() {
     alert(`Form Submitted with Subject: ${subject} and Timer: ${timer}`);
   };
 
-  useEffect(() => {
-    console.log("Subject:", subject, "Timer:", timer);
-  }, [subject, timer]);
-
   return (
     <div>
     
-      <div className="tabs">
-        <button onClick={() => setSection("people")}>People</button>
-        <button onClick={() => setSection("body_parts")}>Body Parts</button>
-        <button onClick={() => setSection("animals")}>Animals</button>
-      </div>
+    <div className="tabs">
+      {Object.keys(dropdownConfigs).map((sectionKey) => {
+        const configName = dropdownConfigs[sectionKey][0].name; // Get the first config name for display
+        return (
+          <Tab
+            key={`${sectionKey}-tab`}
+            section={configName}
+            onClick={() => setSection(sectionKey)}
+          />
+        );
+      })}
+    </div>
 
       <Form
         section={section}
@@ -81,8 +115,9 @@ function App() {
             <label htmlFor={`${section} ${config.type}`} className="dropdown-label">
               Select {config.type}      
             </label>
-            
+
             <Dropdown
+              id={`${section} ${config.type}`}
               key={`${config.name}-${config.type}`}
               options={config.options}
               handleSelect={(value) => handleSelect(value, config.type)}
