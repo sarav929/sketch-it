@@ -3,13 +3,15 @@ import Form from "./components/Form";
 import Tab from "./components/Tab";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
+import * as Yup from "yup";
 
 function App() {
 
   // state management
   const [subject, setSubject] = useState(null);
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState("No Timer");
   const [section, setSection] = useState("people");
+  const [error, setError] = useState("");
 
   // sections subject dropdowns 
 
@@ -73,9 +75,17 @@ function App() {
     ],
   };
 
+  // Form validation 
+
+  const validationSchema = Yup.object({
+    subject: Yup.string().required("Please select a subject category"),
+    timer: Yup.string("Please select a valid timer"),
+  });
+
   // functions
 
   const handleSelect = (value, type) => {
+    setError("");
     if (type === "subject") {
       setSubject(value);
     } else if (type === "timer") {
@@ -85,7 +95,16 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Form Submitted with Subject: ${subject} and Timer: ${timer}`);
+    
+    validationSchema
+    .validate({ subject, timer })
+    .then(() => {
+      alert(`Form submitted. Subject: ${subject}, Timer: ${timer}`);
+      setError("");
+    })
+    .catch((err) => {
+      setError(err.message);
+    });
   };
 
   return (
@@ -107,6 +126,7 @@ function App() {
       <Form
         section={section}
         handleSubmit={handleSubmit}
+        errorMsg={error}
 
         // render dropdowns according to the dropdown config
         inputs={dropdownConfigs[section].map((config) => (

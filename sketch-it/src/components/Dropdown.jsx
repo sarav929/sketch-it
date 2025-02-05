@@ -24,7 +24,7 @@ const Dropdown = ({ options, handleSelect, type, name, required }) => {
         className={type}
         required={required}
       >
-        <option value="">{name}</option>
+        {type === 'subject' && (<option value="" aria-placeholder={name}>{name}</option>)}
         {dropdownOptions.map((option) => (
           <option key={option} value={option}>
             {option}
