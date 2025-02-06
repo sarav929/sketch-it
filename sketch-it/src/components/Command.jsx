@@ -1,8 +1,8 @@
-const Command = ({icon, type, onClick}) => {
+const Command = ({type, onClick}) => {
     return (
-        <div onClick={onClick}>
-            <img src={icon} alt={`${type}-button`} />
-        </div>
+        <button onClick={onClick}>
+            {type}
+        </button>
     )
 }
 
