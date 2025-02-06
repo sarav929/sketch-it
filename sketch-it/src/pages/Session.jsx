@@ -17,19 +17,19 @@ const Session = () => {
 
     const query = subject
 
-    useEffect(() => {
-        const getImage = async () => {
-            setLoading(true)
-            try {
-                const randomImage = await fetchRandomImage(query)
-                if (randomImage) setImage(randomImage)
-            } catch (err) {
-                setError('Failed to fetch image')
-            } finally {
-                setLoading(false)
-            }
+    const getImage = async () => {
+        setLoading(true)
+        try {
+            const randomImage = await fetchRandomImage(query)
+            if (randomImage) setImage(randomImage)
+        } catch (err) {
+            setError('Failed to fetch image')
+        } finally {
+            setLoading(false)
         }
+    }
 
+    useEffect(() => {
         getImage()
     }, [query])
 
@@ -39,7 +39,7 @@ const Session = () => {
     } 
 
     const refresh = () => {
-        alert('generate new img')
+       getImage()
     } 
 
     const controlTimer = () => {
