@@ -4,6 +4,7 @@ import Tab from "./components/Tab";
 import "./styles/App.css";
 import { useState, useEffect } from "react";
 import * as Yup from "yup";
+import { fetchImages } from "./services/api";
 
 function App() {
 
@@ -12,6 +13,8 @@ function App() {
   const [timer, setTimer] = useState(0);
   const [section, setSection] = useState("people");
   const [error, setError] = useState("");
+  const [images, setImages] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   // sections subject dropdowns 
 
@@ -122,18 +125,23 @@ function App() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    validationSchema
-    .validate({ subject, timer })
-    .then(() => {
+
+    try {
+      await validationSchema.validate({ subject, timer })
       alert(`Form submitted. Subject: ${subject}, Timer: ${timer}`);
       setError("");
-    })
-    .catch((err) => {
+      setLoading(true)
+
+      // get images from api querying subject
+      const fetchedImages = await fetchImages(subject); 
+      setImages(fetchedImages); 
+      console.log(images)
+    } catch (err) {
       setError(err.message);
-    });
+    }
+    finally setLoading(false)
   };
 
   return (
@@ -180,6 +188,9 @@ function App() {
             />
           </div>
         ))}
+        
+        // api //
+
         
       />
     </div>

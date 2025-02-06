@@ -24,7 +24,7 @@ const Dropdown = ({ options, handleSelect, type, name, required, value }) => {
         className={type}
         required={required}
       >
-        {type === 'subject' && (<option value="" aria-placeholder={name}>{name}</option>)}
+        {type === 'subject' && (<option value="" aria-placeholder={name} selected disabled>{name}</option>)}
         {dropdownOptions.map((option) => (
           <option key={option[0]} value={option[1]}>
             {option[0]}
