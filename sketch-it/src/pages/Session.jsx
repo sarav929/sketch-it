@@ -42,26 +42,15 @@ const Session = () => {
        getImage()
     } 
 
-    const controlTimer = () => {
-        alert('pause/play timer')
-    }
-
-    const formatTimer = (totalMinutes) => {
-        const minutes = Math.floor(totalMinutes);
-        const seconds = Math.round((totalMinutes - minutes) * 60);
-        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    };
-
     return (
         <div className="session-wrapper">
             {loading && <h1>Loading...</h1>}
             {error && <h1>{error}</h1>}
 
             <Command type="back" onClick={backToHome} />
-            {timer !== 0 && (<Command type="pause-play" onClick={controlTimer} />)}
             <Command type="refresh" onClick={refresh} />
 
-            {timer !== 0 && (<Timer timer={formatTimer(timer)}/>)} 
+            {timer !== 0 && (<Timer timer={timer}/>)} 
 
             {image && (
                 <Reference
