@@ -1,16 +1,16 @@
-const Dropdown = ({ options, handleSelect, type, name, required }) => {
+const Dropdown = ({ options, handleSelect, type, name, required, value }) => {
 
   // timer options - consistent across forms
   const timerOptions = [
-    "No Timer",
-    "1 minute",
-    "5 minutes",
-    "10 minutes",
-    "15 minutes",
-    "20 minutes",
-    "25 minutes",
-    "30 minutes",
-    "60 minutes"
+    ["No Timer"], 
+    ["1 minute", 1],
+    ["5 minutes", 5],
+    ["10 minutes", 10],
+    ["15 minutes", 15],
+    ["20 minutes", 20],
+    ["25 minutes", 25],
+    ["30 minutes", 30],
+    ["60 minutes", 60]
   ];
 
   // set options dynamically for timer or other dropdowns
@@ -26,8 +26,8 @@ const Dropdown = ({ options, handleSelect, type, name, required }) => {
       >
         {type === 'subject' && (<option value="" aria-placeholder={name}>{name}</option>)}
         {dropdownOptions.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option[0]} value={option[1]}>
+            {option[0]}
           </option>
         ))}
       </select>
