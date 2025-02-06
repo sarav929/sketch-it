@@ -1,10 +1,9 @@
 import Dropdown from "../components/Dropdown";
 import Form from "../components/Form";
 import Tab from "../components/Tab";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
-import { fetchImages } from "../services/api";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 

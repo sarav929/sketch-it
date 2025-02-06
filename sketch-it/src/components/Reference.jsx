@@ -1,4 +1,4 @@
-const Reference = ({imgUrl, author, profileLink}) => {
+const Reference = ({imgUrl, alt, author, profileLink}) => {
     return (
         <div>
             <img src={imgUrl} alt="" />
