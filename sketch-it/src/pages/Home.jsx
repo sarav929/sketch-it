@@ -4,22 +4,23 @@ import Tab from "../components/Tab";
 import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { fetchImages } from "../services/api";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Home = () => {
 
+const navigate = useNavigate()
+
     // state management
-  const [subject, setSubject] = useState(null);
-  const [timer, setTimer] = useState(0);
-  const [section, setSection] = useState("people");
-  const [error, setError] = useState("");
-  const [images, setImages] = useState(null);
-  const [loading, setLoading] = useState(false)
+    const [subject, setSubject] = useState(null);
+    const [timer, setTimer] = useState(0);
+    const [section, setSection] = useState("people");
+    const [error, setError] = useState("");
 
-  // sections subject dropdowns 
+    // sections subject dropdowns 
 
-  const dropdownConfigs = {
+    const dropdownConfigs = {
     people: [
-      {
+        {
         name: "People",
         type: "subject",
         required: true,
@@ -29,11 +30,11 @@ const Home = () => {
         ["Male Portrait", "portrait photography male"], 
         ["Face Expressions", "face expression"], 
         ["Poses", "pose"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
     body_parts: [
-      {
+        {
         name: "Body Parts",
         type: "subject",
         required: true,
@@ -44,11 +45,11 @@ const Home = () => {
         ["Hands", "human hands"], 
         ["Feet", "human feet"], 
         ["Ears", "human ears"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
     animals: [
-      {
+        {
         name: "Animals",
         type: "subject",
         required: true,
@@ -59,12 +60,12 @@ const Home = () => {
         ["Reptiles", "reptiles"], 
         ["Anphibians", "amphibians"], 
         ["Insects", "insects"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
 
     nature: [
-      {
+        {
         name: "Nature",
         type: "subject",
         required: true,
@@ -77,12 +78,12 @@ const Home = () => {
         ["Mountains", "mountain"], 
         ["Sea", "sea"], 
         ["Sky", "sky"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
 
     buildings: [
-      {
+        {
         name: "Buildings",
         type: "subject",
         required: true,
@@ -90,105 +91,106 @@ const Home = () => {
         ["Sculptures", "sculpure"], 
         ["Houses", "house"], 
         ["Streets", "street photography"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
 
     other: [
-      {
+        {
         name: "Other",
         type: "subject",
         required: true,
         options: [["Still Life", "still life"], 
         ["Food", "food photography"]],
-      },
-      { name: "Select Timer", type: "timer", required: true },
+        },
+        { name: "Select Timer", type: "timer", required: true },
     ],
-  };
+    };
 
-  // Form validation 
+    // Form validation 
 
-  const validationSchema = Yup.object({
+    const validationSchema = Yup.object({
     subject: Yup.string().required("Please select a subject category"),
     timer: Yup.number("Please select a valid timer"),
-  });
+    });
 
-  // functions
+    // functions
 
-  const handleSelect = (value, type) => {
+    const handleSelect = (value, type) => {
     setError("");
     if (type === "subject") {
-      setSubject(value);
+        setSubject(value);
     } else if (type === "timer") {
-      setTimer(Number(value));
+        setTimer(Number(value));
     }
-  };
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    try {
-      await validationSchema.validate({ subject, timer })
-      alert(`Form submitted. Subject: ${subject}, Timer: ${timer}`);
-      setError("");
-      setLoading(true)
+        try {
+            await validationSchema.validate({ subject, timer })
 
-      // get images from api querying subject
-      const fetchedImages = await fetchImages(subject); 
-      setImages(fetchedImages); 
-      console.log(images)
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+            // pass subject and timer to session page
+            console.log(subject, timer)
+            navigate("/session", {state: {subject, timer}})
+            // reset error
+            setError("");
 
-  return (
+        } catch (err) {
+            setError(err.message)
+        }
+        
+    };
+
+    return (
     <div>
-    
+
     <div className="tabs">
-      {Object.keys(dropdownConfigs).map((sectionKey) => {
+        {Object.keys(dropdownConfigs).map((sectionKey) => {
         const configName = dropdownConfigs[sectionKey][0].name; // Get the first config name for display
         return (
-          <Tab
+            <Tab
             key={`${sectionKey}-tab`}
             section={configName}
             onClick={() => {setSection(sectionKey);
-              setSubject(null);
-              setTimer(0);
+                setSubject(null);
+                setTimer(0);
             }}
-          />
+            />
         );
-      })}
+        })}
     </div>
 
-      <Form
+        <Form
         section={section}
         handleSubmit={handleSubmit}
         errorMsg={error}
 
         // render dropdowns according to the dropdown config
         inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
-          <div key={`${config.name}-${config.type}`}>
+            <div key={`${config.name}-${config.type}`}>
 
             <label htmlFor={`${section} ${config.type}`} className="dropdown-label">
-              Select {config.type}
+                Select {config.type}
             </label>
 
             <Dropdown
-              id={`${section} ${config.type}`}
-              key={`${config.name}-${config.type}`}
-              options={config.options}
-              handleSelect={(value) => handleSelect(value, config.type)}
-              type={config.type}
-              name={config.name}
-              value={subject}
-              required={config.required}
+                id={`${section} ${config.type}`}
+                key={`${config.name}-${config.type}`}
+                options={config.options}
+                handleSelect={(value) => handleSelect(value, config.type)}
+                type={config.type}
+                name={config.name}
+                required={config.required}
+                placeholder={config.name}
+                value={config.type === "timer" ? timer : subject}
             />
-          </div>
+            </div>
         ))}       
-      />
+        />
     </div>
-  );
+    );
 }
 
 

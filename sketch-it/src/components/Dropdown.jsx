@@ -1,4 +1,4 @@
-const Dropdown = ({ options, handleSelect, type, name, required, value }) => {
+const Dropdown = ({ options, handleSelect, type, name, required, value, placeholder }) => {
 
   // timer options - consistent across forms
   const timerOptions = [
@@ -19,14 +19,16 @@ const Dropdown = ({ options, handleSelect, type, name, required, value }) => {
   return (
     <div className="dropdown">
       <select
+        value={value || ""}
         name={name}
         onChange={(e) => handleSelect(e.target.value, type)}
         className={type}
         required={required}
       >
-        {type === 'subject' && (<option value="" aria-placeholder={name} selected disabled>{name}</option>)}
+        {type === "subject" && (<option value="" disabled>{placeholder}</option>)}
+
         {dropdownOptions.map((option) => (
-          <option key={option[0]} value={option[1]}>
+          <option key={option[1]} value={option[1]}>
             {option[0]}
           </option>
         ))}
