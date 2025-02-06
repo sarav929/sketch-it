@@ -19,6 +19,7 @@ const Dropdown = ({ options, handleSelect, type, name, required, value, placehol
   return (
     <div className="dropdown">
       <select
+        key={`${type}-${name}`}
         value={value || ""}
         name={name}
         onChange={(e) => handleSelect(e.target.value, type)}
@@ -28,7 +29,7 @@ const Dropdown = ({ options, handleSelect, type, name, required, value, placehol
         {type === "subject" && (<option value="" disabled>{placeholder}</option>)}
 
         {dropdownOptions.map((option) => (
-          <option key={option[1]} value={option[1]}>
+          <option key={`${type}-${option[1]}`} value={option[1]}>
             {option[0]}
           </option>
         ))}
