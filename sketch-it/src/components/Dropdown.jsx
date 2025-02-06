@@ -2,7 +2,7 @@ const Dropdown = ({ options, handleSelect, type, name, required, value }) => {
 
   // timer options - consistent across forms
   const timerOptions = [
-    ["No Timer"], 
+    ["No Timer", 0], 
     ["1 minute", 1],
     ["5 minutes", 5],
     ["10 minutes", 10],

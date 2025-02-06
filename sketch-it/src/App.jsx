@@ -9,7 +9,7 @@ function App() {
 
   // state management
   const [subject, setSubject] = useState(null);
-  const [timer, setTimer] = useState("No Timer");
+  const [timer, setTimer] = useState(0);
   const [section, setSection] = useState("people");
   const [error, setError] = useState("");
 
@@ -108,7 +108,7 @@ function App() {
 
   const validationSchema = Yup.object({
     subject: Yup.string().required("Please select a subject category"),
-    timer: Yup.string("Please select a valid timer"),
+    timer: Yup.number("Please select a valid timer"),
   });
 
   // functions
@@ -118,7 +118,7 @@ function App() {
     if (type === "subject") {
       setSubject(value);
     } else if (type === "timer") {
-      setTimer(value);
+      setTimer(Number(value));
     }
   };
 
@@ -146,7 +146,10 @@ function App() {
           <Tab
             key={`${sectionKey}-tab`}
             section={configName}
-            onClick={() => setSection(sectionKey)}
+            onClick={() => {setSection(sectionKey);
+              setSubject(null);
+              setTimer(0);
+            }}
           />
         );
       })}
@@ -158,11 +161,11 @@ function App() {
         errorMsg={error}
 
         // render dropdowns according to the dropdown config
-        inputs={dropdownConfigs[section].map((config) => (
+        inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
           <div key={`${config.name}-${config.type}`}>
 
             <label htmlFor={`${section} ${config.type}`} className="dropdown-label">
-              Select {config.type}      
+              Select {config.type}
             </label>
 
             <Dropdown
@@ -172,13 +175,12 @@ function App() {
               handleSelect={(value) => handleSelect(value, config.type)}
               type={config.type}
               name={config.name}
-              value={config.options[1]}
+              value={subject}
               required={config.required}
             />
-
           </div>
-
         ))}
+        
       />
     </div>
   );
