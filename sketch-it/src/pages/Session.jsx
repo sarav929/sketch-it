@@ -58,7 +58,7 @@ const Session = () => {
             <Command type="back" onClick={backToHome} />
             <Command type="refresh" onClick={refresh} />
 
-            {timer !== 0 && (<Timer timer={timer}/>)} 
+            {timer !== 0 && (<Timer timer={timer} onRefresh={getImage}/>)} 
 
             {image && (
                 <Reference
