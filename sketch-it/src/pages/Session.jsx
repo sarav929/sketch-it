@@ -3,13 +3,13 @@ import Timer from "../components/Timer"
 import Command from "../components/Command"
 import { fetchRandomImage } from "../services/api"
 import { useEffect, useState} from "react"
-import { useNavigate } from "react-router-dom"
-import { useAppContext } from "../App"
+import { useNavigate, useLocation } from "react-router-dom"
 
 const Session = () => {
 
     const navigate = useNavigate()
-    const { subject, timer, resetState } = useAppContext();
+    const location = useLocation();
+    const { subject, timer } = location.state || {};
 
     const [image, setImage] = useState(null)
     const [error, setError] = useState(null)
@@ -34,12 +34,11 @@ const Session = () => {
     }, [query])
 
     const backToHome = () => {
-        resetState()
-        navigate("/")
+        alert('back to home page')
     } 
 
     const refresh = () => {
-       getImage()
+        alert('refresh reference and timer (if any)')
     } 
 
     return (
