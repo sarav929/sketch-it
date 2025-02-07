@@ -4,12 +4,20 @@ import Command from "../components/Command"
 import { fetchRandomImage } from "../services/api"
 import { useEffect, useState} from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { useAppContext } from "../context/Context"
 
 const Session = () => {
 
     const navigate = useNavigate()
-    const location = useLocation();
-    const { subject, timer } = location.state || {};
+    const { subject, timer, setSubject, setTimer } = useAppContext();
+
+    useEffect(() => {
+        const storedSubj = localStorage.getItem("subject");
+        const storedTimer = localStorage.getItem("timer");
+      
+        if (storedSubj) setSubject(storedSubj);
+        if (storedTimer) setTimer(Number(storedTimer));
+    }, []);
 
     const [image, setImage] = useState(null)
     const [error, setError] = useState(null)
@@ -34,11 +42,12 @@ const Session = () => {
     }, [query])
 
     const backToHome = () => {
-        alert('back to home page')
+        navigate("/")
     } 
 
     const refresh = () => {
-        alert('refresh reference and timer (if any)')
+        getImage()
+        setTimer(timer)
     } 
 
     return (
