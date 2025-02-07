@@ -1,76 +1,84 @@
-import Reference from "../components/Reference"
-import Timer from "../components/Timer"
-import Command from "../components/Command"
-import { fetchRandomImage } from "../services/api"
-import { useEffect, useState} from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import { useAppContext } from "../context/Context"
+import Reference from "../components/Reference";
+import Timer from "../components/Timer";
+import Command from "../components/Command";
+import { fetchRandomImage } from "../services/api";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/Context";
 
 const Session = () => {
+  const navigate = useNavigate();
+  const { subject, timer, setSubject, setTimer } = useAppContext();
+  const [resetTimer, setResetTimer] = useState(0); // force re-render on reset
 
-    const navigate = useNavigate()
-    const { subject, timer, setSubject, setTimer } = useAppContext();
+  const restartTimer = () => {
+    setResetTimer((prev) => prev + 1);  
+    setTimer(timer);
+  };
 
-    useEffect(() => {
-        const storedSubj = localStorage.getItem("subject");
-        const storedTimer = localStorage.getItem("timer");
-      
-        if (storedSubj) setSubject(storedSubj);
-        if (storedTimer) setTimer(Number(storedTimer));
-    }, []);
+  useEffect(() => {
+    const storedSubj = localStorage.getItem("subject");
+    const storedTimer = localStorage.getItem("timer");
 
-    const [image, setImage] = useState(null)
-    const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(false)
+    if (storedSubj) setSubject(storedSubj);
+    if (storedTimer) setTimer(Number(storedTimer));
+  }, [setSubject, setTimer]);
 
-    const query = subject
+  const [image, setImage] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const getImage = async () => {
-        setLoading(true)
-        try {
-            const randomImage = await fetchRandomImage(query)
-            if (randomImage) setImage(randomImage)
-        } catch (err) {
-            setError('Failed to fetch image')
-        } finally {
-            setLoading(false)
-        }
+  const query = subject;
+
+  const getImage = async () => {
+    setLoading(true);
+    try {
+      const randomImage = await fetchRandomImage(query);
+      if (randomImage) setImage(randomImage);
+    } catch (err) {
+      setError("Failed to fetch image");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {
-        getImage()
-    }, [query])
+  useEffect(() => {
+    getImage();
+  }, [query]);
 
-    const backToHome = () => {
-        navigate("/")
-    } 
+  const backToHome = () => {
+    setSubject(null);
+    setTimer(0);
+    localStorage.removeItem("subject");
+    localStorage.removeItem("timer");
+    navigate("/");
+  };
 
-    const refresh = () => {
-        getImage()
-        setTimer(timer)
-    } 
+  const refresh = () => {
+    restartTimer()
+    getImage()
+  };
 
-    return (
-        <div className="session-wrapper">
-            {loading && <h1>Loading...</h1>}
-            {error && <h1>{error}</h1>}
+  return (
+    <div className="session-wrapper">
+      {loading && <h1>Loading...</h1>}
+      {error && <h1>{error}</h1>}
 
-            <Command type="back" onClick={backToHome} />
-            <Command type="refresh" onClick={refresh} />
+      <Command type="back" onClick={backToHome} />
+      <Command type="refresh" onClick={refresh} />
 
-            {timer !== 0 && (<Timer timer={timer} onRefresh={getImage}/>)} 
+      {timer !== 0 && <Timer key={resetTimer} timer={timer} onRefresh={refresh} />} {/* Timer now uses the updated state */} 
 
-            {image && (
-                <Reference
-                imgUrl={image[0].urls.small}
-                alt={image[0].alt_description}
-                author={image[0].user.username}
-                profileLink={image[0].links.html}
-                />
-            )}
-                            
-        </div>
-    )
-}
+      {image && (
+        <Reference
+          imgUrl={image[0].urls.small}
+          alt={image[0].alt_description}
+          author={image[0].user.username}
+          profileLink={image[0].links.html}
+        />
+      )}
+    </div>
+  );
+};
 
-export default Session
+export default Session;
