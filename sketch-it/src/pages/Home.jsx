@@ -4,14 +4,14 @@ import Tab from "../components/Tab";
 import { useState } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/Context";
 
 const Home = () => {
 
     const navigate = useNavigate()
+    const { subject, timer, setSubject, setTimer } = useAppContext();
 
     // state management
-    const [subject, setSubject] = useState(null)
-    const [timer, setTimer] = useState(0)
     const [section, setSection] = useState("people");
     const [error, setError] = useState("");
 
@@ -132,7 +132,7 @@ const Home = () => {
 
             // pass subject and timer to session page
             console.log(subject, timer)
-            navigate("/session", { state: { subject, timer } })
+            navigate("/session")
             // reset error
             setError("");
 
