@@ -1,7 +1,7 @@
 import Dropdown from "../components/Dropdown";
 import Form from "../components/Form";
 import Tab from "../components/Tab";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
@@ -14,6 +14,14 @@ const Home = () => {
     // state management
     const [section, setSection] = useState("people");
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        // Clear local storage and reset states when the home page is loaded
+        localStorage.removeItem("subject");
+        localStorage.removeItem("timer");
+        setSubject(null);
+        setTimer(0);
+    }, [setSubject, setTimer]);
 
     // sections subject dropdowns 
 
