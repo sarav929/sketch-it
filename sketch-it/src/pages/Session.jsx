@@ -61,15 +61,16 @@ const Session = () => {
 
   return (
     <div className="session-wrapper">
-      {loading && <h1>Loading...</h1>}
-      {error && <h1>{error}</h1>}
+      
+      {error && <p className="session-error">{error}</p>}
 
       <Command type="back" onClick={backToHome} />
       <Command type="refresh" onClick={refresh} />
 
       {timer !== 0 && <Timer key={resetTimer} timer={timer} onRefresh={refresh} />} {/* Timer now uses the updated state */} 
 
-      {image && (
+      {loading && <p>Loading...</p>}
+      {!loading && image && (
         <Reference
           imgUrl={image[0].urls.small}
           alt={image[0].alt_description}

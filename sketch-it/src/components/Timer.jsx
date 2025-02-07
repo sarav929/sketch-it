@@ -5,8 +5,8 @@ const Timer = ({ timer, onRefresh }) => {
   const [isRunning, setIsRunning] = useState(true)
 
   useEffect(() => {
-    setRemaining(timer * 60);  // Reset remaining time when `timer` prop changes
-  }, [timer]); // This effect depends on the `count` prop
+    setRemaining(timer * 60);  
+  }, [timer]); 
 
   useEffect(() => {
     if (remaining <= 0) {
@@ -36,9 +36,9 @@ const Timer = ({ timer, onRefresh }) => {
 
   return (
   
-    <div>
-      {formatTimer(remaining)}
-      <button onClick={toggleTimer}>
+    <div className="timer-wrapper">
+      <div className="timer">{formatTimer(remaining)}</div>
+      <button className="timer-toggle" onClick={toggleTimer}>
         {isRunning ? "Pause" : "Play"}
       </button>
     </div>
