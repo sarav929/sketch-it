@@ -6,3 +6,18 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
+
+.tabs > * {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+.tabs > *:first-child {
+    border-radius: 8px 0px 0px 0px;
+  }
+  
+  .tabs > *:last-child {
+    border-radius: 0px 0px 0px 8px;
+    border-bottom: 1px solid #ccc;
+  }

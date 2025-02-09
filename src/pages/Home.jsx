@@ -151,7 +151,7 @@ const Home = () => {
     };
 
     return (
-    <div>
+    <div className="bg-stone-100 w-full md:w-4/5 mx-auto mt-5 text-center flex rounded-md drop-shadow-md">
 
     <div className="tabs">
         {Object.keys(dropdownConfigs).map((sectionKey) => {
@@ -163,7 +163,7 @@ const Home = () => {
             onClick={() => {setSection(sectionKey);
                 setSubject(null);
                 setTimer(0);
-            }}
+            }}            
             />
         );
         })}
