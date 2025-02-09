@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
 
+import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-icons/react";
+
 const Home = () => {
 
     const navigate = useNavigate()
@@ -29,6 +31,7 @@ const Home = () => {
     people: [
         {
         name: "People",
+        icon: <PersonSimpleRun />,
         type: "subject",
         required: true,
         options: [["All", "model"], 
@@ -43,6 +46,7 @@ const Home = () => {
     body_parts: [
         {
         name: "Body Parts",
+        icon: <Eye />,
         type: "subject",
         required: true,
         options: [["All"], 
@@ -58,6 +62,7 @@ const Home = () => {
     animals: [
         {
         name: "Animals",
+        icon: <Cat />,
         type: "subject",
         required: true,
         options: [["All", "animals"], 
@@ -74,6 +79,7 @@ const Home = () => {
     nature: [
         {
         name: "Nature",
+        icon: <Tree />,
         type: "subject",
         required: true,
         options: [["All", "nature"], 
@@ -92,6 +98,7 @@ const Home = () => {
     buildings: [
         {
         name: "Buildings",
+        icon: <Buildings />,
         type: "subject",
         required: true,
         options: [["Architecture", "architecture"], 
@@ -105,6 +112,7 @@ const Home = () => {
     other: [
         {
         name: "Other",
+        icon: <BowlFood />,
         type: "subject",
         required: true,
         options: [["Still Life", "still life"], 
@@ -155,10 +163,13 @@ const Home = () => {
 
     <div className="tabs">
         {Object.keys(dropdownConfigs).map((sectionKey) => {
-        const configName = dropdownConfigs[sectionKey][0].name; // Get the first config name for display
+        const config = dropdownConfigs[sectionKey][0];
+        const configName = config.name
+        const Icon = config.icon // Get the first config name for display
         return (
             <Tab
             key={`${sectionKey}-tab`}
+            icon={Icon}
             section={configName}
             onClick={() => {setSection(sectionKey);
                 setSubject(null);
@@ -168,7 +179,6 @@ const Home = () => {
         );
         })}
     </div>
-
         <Form
         section={section}
         handleSubmit={handleSubmit}
