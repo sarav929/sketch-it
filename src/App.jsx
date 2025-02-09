@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from "./pages/Home";
 import Session from "./pages/Session";
-import "./styles/App.css";
 import { AppProvider } from './context/Context';
 
 function App() {
