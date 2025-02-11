@@ -1,7 +1,7 @@
-const Command = ({type, onClick}) => {
+const Command = ({type, Icon, onClick}) => {
     return (
-        <button onClick={onClick}>
-            {type}
+        <button onClick={onClick} className={`${type}-btn hover:opacity-70 transition-opacity duration-300 ease-in-out`}>
+            <Icon size={28} weight={type === "refresh" ? "bold" : "fill"}/>
         </button>
     )
 }

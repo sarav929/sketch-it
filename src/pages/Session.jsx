@@ -5,6 +5,8 @@ import { fetchRandomImage } from "../services/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
+import Spinner from "../components/Spinner";
+import { ArrowCircleLeft, ArrowsClockwise } from "@phosphor-icons/react";
 
 const Session = () => {
   const navigate = useNavigate();
@@ -34,13 +36,24 @@ const Session = () => {
     setLoading(true);
     try {
       const randomImage = await fetchRandomImage(query);
-      if (randomImage) setImage(randomImage);
+      if (randomImage) {
+        setImage(randomImage);
+        setError(null); // Clear any previous errors if successful
+      }
+      console.log(randomImage);
     } catch (err) {
-      setError("Failed to fetch image");
+      // Handle specific errors and set user-friendly messages
+      if (err.message.includes("expected JSON response from server")) {
+        setError("Oops! We’ve hit a limit for now. Please try again later.");
+      } else {
+        setError("Oops! Something went wrong. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
   };
+  
+  
 
   useEffect(() => {
     getImage();
@@ -49,8 +62,7 @@ const Session = () => {
   const backToHome = () => {
     setSubject(null);
     setTimer(0);
-    localStorage.removeItem("subject");
-    localStorage.removeItem("timer");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -60,26 +72,56 @@ const Session = () => {
   };
 
   return (
-    <div className="session-wrapper">
-      
-      {error && <p className="session-error">{error}</p>}
+    <div className="session-container min-h-screen flex flex-col items-center justify-between w-full sm:w-[50vw] m-auto">
+      {/* Display error message if there's an error */}
+      {error && (
+        <div className="m-auto text-center">
+          <div className="session-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex flex-col ">
+            {error}
+          </div>
 
-      <Command type="back" onClick={backToHome} />
-      <Command type="refresh" onClick={refresh} />
-
-      {timer !== 0 && <Timer key={resetTimer} timer={timer} onRefresh={refresh} />} {/* Timer now uses the updated state */} 
-
-      {loading && <p>Loading...</p>}
-      {!loading && image && (
-        <Reference
-          imgUrl={image[0].urls.small}
-          alt={image[0].alt_description}
-          author={image[0].user.username}
-          profileLink={image[0].links.html}
-        />
+          <button class="bg-white hover:bg-stone-100 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded shadow mt-4" onClick={backToHome}>
+            Home
+          </button>
+        </div>            
+        
+      )}
+  
+      {/* Only display commands and reference if there is no error */}
+      {!error && (
+        <>
+          {/* Command section */}
+          <div className="flex justify-between w-full px-5 py-4">
+            <Command type="back" Icon={ArrowCircleLeft} onClick={backToHome} />
+            <div className="flex gap-3">
+              {timer !== 0 && (
+                <Timer key={resetTimer} timer={timer} onRefresh={refresh} />
+              )}
+              <Command type="refresh" Icon={ArrowsClockwise} onClick={refresh} />
+            </div>
+          </div>
+  
+          <div className="flex flex-col items-center flex-grow px-5">
+            {loading && <Spinner />}
+  
+            {!loading && image && (
+              <div className="w-full h-full flex justify-center items-center">
+                <Reference
+                  imgUrl={image[0].urls.full}
+                  alt={image[0].alt_description}
+                  author={image[0].user.username}
+                  profileLink={image[0].links.html}
+                  errorMsg={error}
+                />
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );
-};
+  
+  
+}  
 
 export default Session;

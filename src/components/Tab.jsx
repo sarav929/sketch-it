@@ -5,8 +5,8 @@ const Tab = ({section, onClick, icon, className}) => {
                 value={section}
                 onClick={onClick}
             > 
-            <div className="section-icon w-[2rem] text-center">{icon}</div>
-            <div className="section-name text-left ml-4">{section}</div>
+            <div className="section-icon w-[2rem]">{icon}</div>
+            <div className="section-name text-left">{section}</div>
             </button>
     )
 }

@@ -18,6 +18,7 @@ export const AppProvider = ({children}) => {
     }, [])
 
     useEffect(() => {
+
         localStorage.setItem("subject", JSON.stringify(subject))
         localStorage.setItem("timer", timer)
     }, [subject, timer])

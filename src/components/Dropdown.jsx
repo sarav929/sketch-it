@@ -24,7 +24,15 @@ const Dropdown = ({ options, handleSelect, type, name, required, value, placehol
 
     <div className="w-[50%] max-w-md px-4 m-auto">
       <Field>
-        <Label className="text-sm/6 font-medium ">Select {type}</Label>
+      {
+        type === "subject" ? (
+          <Label className="text-sm">Select a category</Label>
+        ) : (
+          <Label className="text-sm">
+            Select a timer <span className="text-xs opacity-80">(optional)</span>
+          </Label>
+        )
+      }
         <div className="relative">
           <Select
             key={`${type}-${name}`}
@@ -34,9 +42,9 @@ const Dropdown = ({ options, handleSelect, type, name, required, value, placehol
 
             required={required}
             className={clsx(
-              'mt-3 block w-full appearance-none rounded-lg bg-white/5 py-1.5 px-3 text-sm/6',
+              'mt-3 block w-full appearance-none rounded-lg bg-white/5 py-1.5 px-3 text-sm/6 fade-in',
               'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
-              'border border-black/10' // Add this class for border with 20% opacity
+              'border border-black/10' 
             )}
           >
 

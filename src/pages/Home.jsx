@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
+import Footer from "../components/Footer";
 
 import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-icons/react";
 
@@ -22,8 +23,7 @@ const Home = () => {
 
     useEffect(() => {
         // Clear local storage and reset states when the home page is loaded
-        localStorage.removeItem("subject");
-        localStorage.removeItem("timer");
+        localStorage.clear();
         setSubject(null);
         setTimer(0);
     }, [setSubject, setTimer]);
@@ -148,11 +148,8 @@ const Home = () => {
 
         try {
             await validationSchema.validate({ subject, timer })
-
-            // pass subject and timer to session page
             console.log(subject, timer)
             navigate("/session")
-            // reset error
             setError("");
 
         } catch (err) {
@@ -163,11 +160,11 @@ const Home = () => {
 
     return (
 
-    <div className="app-container flex flex-col justify-center items-center"> 
+    <div className="app-container flex flex-col justify-center items-center h-screen mt-2"> 
 
         <img src="/img/sketchit_logo.png" className="w-[350px] text-center" alt="logo" />
 
-        <div className="w-3/5 mt-5 text-center flex drop-shadow-md ">
+        <div className="w-3/6 text-center flex drop-shadow-md ">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
@@ -180,11 +177,11 @@ const Home = () => {
                         icon={Icon}
                         section={configName}
                         onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
-                        className={`section-tab w-[10rem] h-[4rem] flex items-center justify-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                        className={`section-tab border border-stone-200 w-[10rem] h-[4rem] p-3 grid grid-cols-[40px_auto] gap-3 items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
                                 ? "opacity-100 border-r-0 scale-105 origin-right z-10"
-                                : "opacity-90 border-r-2 scale-100 origin-right z-0"
+                                : "opacity-90 scale-100 origin-right z-0"
                             }
                         `}
                     />
@@ -192,7 +189,7 @@ const Home = () => {
                 );
                 })}
             </div>
-            <div className="bg-white flex flex-col items-center justify-center rounded-tr-lg rounded-br-lg w-full">
+            <div className="bg-white flex flex-col items-center justify-center rounded-tr-lg rounded-br-lg w-full border border-l-0 border-stone-200">
                 <Form
                 section={section}
                 handleSubmit={handleSubmit}
@@ -223,6 +220,7 @@ const Home = () => {
             
             </div>
         </div>
+        <Footer></Footer>
     </div>
     );
 }
