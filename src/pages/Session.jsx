@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
 import Spinner from "../components/Spinner";
+import Toggle from "../components/Switch";
 import { ArrowCircleLeft, ArrowsClockwise } from "@phosphor-icons/react";
 
 const Session = () => {
   const navigate = useNavigate();
   const { subject, timer, setSubject, setTimer } = useAppContext();
   const [resetTimer, setResetTimer] = useState(0); // force re-render on reset
+  const [isBlackAndWhite, setIsBlackAndWhite] = useState(false)
 
   const restartTimer = () => {
     setResetTimer((prev) => prev + 1);  
@@ -92,8 +94,14 @@ const Session = () => {
         <>
           {/* Command section */}
           <div className="flex justify-between w-full px-5 py-4">
+            <div className="flex items-center gap-3">
             <Command type="back" Icon={ArrowCircleLeft} onClick={backToHome} />
-            <div className="flex gap-3">
+            <Toggle 
+              enabled={isBlackAndWhite}
+              onChange={() => setIsBlackAndWhite(!isBlackAndWhite)}
+            />
+            </div>
+            <div className="flex gap-3 items-center">
               {timer !== 0 && (
                 <Timer key={resetTimer} timer={timer} onRefresh={refresh} />
               )}
@@ -101,17 +109,18 @@ const Session = () => {
             </div>
           </div>
   
-          <div className="flex flex-col items-center flex-grow px-5">
+          <div className="flex flex-col items-center flex-grow px-5 text-center">
             {loading && <Spinner />}
   
             {!loading && image && (
-              <div className="w-full h-full flex justify-center items-center">
+              <div className="w-full h-full flex-col justify-center items-center">
                 <Reference
                   imgUrl={image[0].urls.full}
                   alt={image[0].alt_description}
                   author={image[0].user.username}
                   profileLink={image[0].links.html}
                   errorMsg={error}
+                  isBlackAndWhite={isBlackAndWhite}
                 />
               </div>
             )}
