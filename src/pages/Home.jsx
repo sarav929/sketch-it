@@ -10,6 +10,9 @@ import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-
 
 const Home = () => {
 
+    const iconSize = 28
+    const [iconWeight, setIconWeight] = useState("thin");
+
     const navigate = useNavigate()
     const { subject, timer, setSubject, setTimer } = useAppContext();
 
@@ -31,7 +34,7 @@ const Home = () => {
     people: [
         {
         name: "People",
-        icon: <PersonSimpleRun />,
+        icon: <PersonSimpleRun size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "model"], 
@@ -43,10 +46,10 @@ const Home = () => {
         },
         { name: "Select Timer", type: "timer", required: true },
     ],
-    body_parts: [
+    anatomy: [
         {
-        name: "Body Parts",
-        icon: <Eye />,
+        name: "Anatomy",
+        icon: <Eye size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All"], 
@@ -62,7 +65,7 @@ const Home = () => {
     animals: [
         {
         name: "Animals",
-        icon: <Cat />,
+        icon: <Cat size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "animals"], 
@@ -79,7 +82,7 @@ const Home = () => {
     nature: [
         {
         name: "Nature",
-        icon: <Tree />,
+        icon: <Tree size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "nature"], 
@@ -98,7 +101,7 @@ const Home = () => {
     buildings: [
         {
         name: "Buildings",
-        icon: <Buildings />,
+        icon: <Buildings size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["Architecture", "architecture"], 
@@ -112,7 +115,7 @@ const Home = () => {
     other: [
         {
         name: "Other",
-        icon: <BowlFood />,
+        icon: <BowlFood size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["Still Life", "still life"], 
@@ -159,53 +162,67 @@ const Home = () => {
     };
 
     return (
-    <div className="bg-stone-100 w-full md:w-4/5 mx-auto mt-5 text-center flex rounded-md drop-shadow-md">
 
-    <div className="tabs">
-        {Object.keys(dropdownConfigs).map((sectionKey) => {
-        const config = dropdownConfigs[sectionKey][0];
-        const configName = config.name
-        const Icon = config.icon // Get the first config name for display
-        return (
-            <Tab
-            key={`${sectionKey}-tab`}
-            icon={Icon}
-            section={configName}
-            onClick={() => {setSection(sectionKey);
-                setSubject(null);
-                setTimer(0);
-            }}            
-            />
-        );
-        })}
-    </div>
-        <Form
-        section={section}
-        handleSubmit={handleSubmit}
-        errorMsg={error}
+    <div className="app-container flex flex-col justify-center items-center"> 
 
-        // render dropdowns according to the dropdown config
-        inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
-            <div key={`${config.name}-${config.type}`}>
+        <img src="/img/sketchit_logo.png" className="w-[350px] text-center" alt="logo" />
 
-            <label htmlFor={`${section} ${config.type}`} className="dropdown-label">
-                Select {config.type}
-            </label>
+        <div className="w-3/5 mt-5 text-center flex drop-shadow-md ">
 
-            <Dropdown
-                id={`${section} ${config.type}`}
-                key={`${config.name}-${config.type}`}
-                options={config.options}
-                handleSelect={(value) => handleSelect(value, config.type)}
-                type={config.type}
-                name={config.name}
-                required={config.required}
-                placeholder={config.name}
-                value={config.type === "timer" ? timer : subject}
-            />
+            <div className="tabs flex flex-col">
+                {Object.keys(dropdownConfigs).map((sectionKey) => {
+                const config = dropdownConfigs[sectionKey][0];
+                const configName = config.name
+                const Icon = config.icon // Get the first config name for display
+                return (
+                    <Tab
+                        key={`${sectionKey}-tab`}
+                        icon={Icon}
+                        section={configName}
+                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
+                        className={`section-tab w-[10rem] h-[4rem] flex items-center justify-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                            ${
+                            section === sectionKey
+                                ? "opacity-100 border-r-0 scale-105 origin-right z-10"
+                                : "opacity-90 border-r-2 scale-100 origin-right z-0"
+                            }
+                        `}
+                    />
+
+                );
+                })}
             </div>
-        ))}       
-        />
+            <div className="bg-white flex flex-col items-center justify-center rounded-tr-lg rounded-br-lg w-full">
+                <Form
+                section={section}
+                handleSubmit={handleSubmit}
+                errorMsg={error}
+                title={dropdownConfigs[section][0].name}
+
+                // render dropdowns according to the dropdown config
+                inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
+                    <div key={`${config.name}-${config.type}`}>
+
+                        <div className="mt-5 mb-5">
+
+                            <Dropdown
+                                id={`${section} ${config.type}`}
+                                key={`${config.name}-${config.type}`}
+                                options={config.options}
+                                handleSelect={(value) => handleSelect(value, config.type)}
+                                type={config.type}
+                                name={config.name}
+                                required={config.required}
+                                placeholder={config.name}
+                                value={config.type === "timer" ? timer : subject}
+                            />
+                        </div>
+                    </div>
+                ))}       
+            />
+            
+            </div>
+        </div>
     </div>
     );
 }

@@ -1,15 +1,13 @@
-const Tab = ({section, onClick, icon}) => {
+const Tab = ({section, onClick, icon, className}) => {
     return (
-        <div className="container flex flex-col bg-stone-100">
             <button
-                className="section-tab w-[5rem] h-[5rem] flex justify-center items-center gap-2 ml-4 mr-4"
+                className={className}
                 value={section}
                 onClick={onClick}
             > 
-            <div className="section-icon mb-2">{icon}</div>
-            <div className="section-name mb-2">{section}</div>
+            <div className="section-icon w-[2rem] text-center">{icon}</div>
+            <div className="section-name text-left ml-4">{section}</div>
             </button>
-        </div>
     )
 }
 
