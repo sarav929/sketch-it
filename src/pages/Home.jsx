@@ -162,9 +162,9 @@ const Home = () => {
 
     <div className="app-container flex flex-col justify-center items-center h-screen mt-2"> 
 
-        <img src="/img/sketchit_logo.png" className="w-[350px] text-center" alt="logo" />
+        <img src="/img/sketchit_logo.png" className="text-center lg:w-[400px]" alt="logo" />
 
-        <div className="w-3/6 text-center flex drop-shadow-md ">
+        <div className="w-[92%] lg:w-[50%] text-center flex drop-shadow-md">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
@@ -177,7 +177,7 @@ const Home = () => {
                         icon={Icon}
                         section={configName}
                         onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
-                        className={`section-tab border border-stone-200 w-[10rem] h-[4rem] p-3 grid grid-cols-[40px_auto] gap-3 items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
                                 ? "opacity-100 border-r-0 scale-105 origin-right z-10"

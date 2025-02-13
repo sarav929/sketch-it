@@ -9,7 +9,6 @@ export const fetchRandomImage = async (query) => {
   try {
     const response = await unsplash.photos.getRandom({
       query,
-      count: 1,
     });
 
     // Check if the API returned errors
@@ -24,6 +23,7 @@ export const fetchRandomImage = async (query) => {
 
     // If the response is successful and contains data
     const image = response.response;
+    console.log(image);
     return image;
   } catch (error) {
     console.error('Error fetching image:', error);

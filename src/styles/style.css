@@ -9,7 +9,7 @@
 
 * {
     box-sizing: border-box;
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', sans-serif;
     font-size: .9rem;
     
 }
@@ -38,3 +38,4 @@ body {
 .tabs > :last-child {
   transform-origin: bottom right;
 }
+
