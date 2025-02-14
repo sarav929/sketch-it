@@ -73,53 +73,54 @@ const Session = () => {
   }, [isSessionInitialized, query]); 
 
   return (
-    <div className="session-container flex flex-col items-center m-auto w-full lg:w-[60%]">
-      
-      {error && (
-        <div className="m-5 text-center flex flex-col justify-center items-center h-screen">
-          <div className="session-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex flex-col ">
-            {error}
-          </div>
-          <button className="bg-white hover:bg-stone-100 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded shadow mt-4 w-[40%]" onClick={backToHome}>
-            Home
-          </button>
-        </div>            
-      )}
-
-      {!error && (
-        <>
-          <div className="flex justify-between px-5 py-4 w-full">
-            <div className="flex items-center gap-3">
-              <Command type="back" Icon={ArrowCircleLeft} onClick={backToHome} />
-              <Toggle 
-                enabled={isBlackAndWhite}
-                onChange={() => setIsBlackAndWhite(!isBlackAndWhite)}
-              />
+    <div className="session-wrapper flex justify-center w-full lg:max-w-[32vw] m-auto">
+      <div className="container flex flex-col justify-center items-center w-full px-3 py-3">
+        {error && (
+          <div className="m-5 text-center flex flex-col justify-center items-center h-screen">
+            <div className="session-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex flex-col ">
+              {error}
             </div>
-            <div className="flex gap-3 items-center">
-              {timer !== 0 && (
-                <Timer key={resetTimer} timer={timer} onRefresh={refresh} />
-              )}
-              <Command type="refresh" Icon={ArrowsClockwise} onClick={refresh} />
-            </div>
-          </div>
+            <button className="bg-white hover:bg-stone-100 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded shadow mt-4 w-[40%]" onClick={backToHome}>
+             Home
+            </button>
+          </div>            
+        )}
 
-          <div className="flex flex-col items-center flex-grow px-5 text-center">
-            {loading && <Spinner />}
-            {!loading && image && (
-                <Reference
-                  imgUrl={image.urls.full}
-                  alt={image.alt_description}
-                  author={image.user.username}
-                  profileLink={image.links.html}
-                  errorMsg={error}
-                  isBlackAndWhite={isBlackAndWhite}
+        {!error && (
+          <>
+            <section className="command-bar flex justify-between items-center w-full px-6 py-5">
+              <div className="left-commands flex items-center gap-3">
+                <Command type="back" Icon={ArrowCircleLeft} onClick={backToHome} />
+                <Toggle 
+                  enabled={isBlackAndWhite}
+                  onChange={() => setIsBlackAndWhite(!isBlackAndWhite)}
                 />
+              </div>
+              <div className="right-commands flex items-center gap-3">
+                {timer !== 0 && (
+                  <Timer key={resetTimer} timer={timer} onRefresh={refresh} />
+                )}
+                <Command type="refresh" Icon={ArrowsClockwise} onClick={refresh} />
+              </div>
+            </section>
 
-            )}
-          </div>
-        </>
-      )}
+            <div className="img-container-portrait w-full overflow-hidden rounded-lg aspect-[9/16] md:aspect-[4/5] 2xl:aspect-square  lg:w-[85%]">
+              {loading && <Spinner />}
+              {!loading && image && (
+                  <Reference
+                    imgUrl={image.urls.full}
+                    alt={image.alt_description}
+                    author={image.user.username}
+                    profileLink={image.links.html}
+                    errorMsg={error}
+                    isBlackAndWhite={isBlackAndWhite}
+                  />
+
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
