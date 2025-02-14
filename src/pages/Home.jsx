@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
 import Footer from "../components/Footer";
 
-import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-icons/react";
+import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood, ScribbleLoop } from "@phosphor-icons/react";
 
 const Home = () => {
 
@@ -123,6 +123,17 @@ const Home = () => {
         },
         { name: "Select Timer", type: "timer", required: true },
     ],
+
+    random: [
+        {
+        name: "Random",
+        icon: <ScribbleLoop size={iconSize} weight={iconWeight}/>,
+        type: "subject",
+        required: true,
+        options: [],
+        },
+        { name: "Select Timer", type: "timer", required: true },
+    ],
     };
 
     // Form validation 
@@ -176,7 +187,7 @@ const Home = () => {
                         key={`${sectionKey}-tab`}
                         icon={Icon}
                         section={configName}
-                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0)}}
+                        onClick={() => { setSection(sectionKey); setSubject(sectionKey === "random" ? "Random" : null); setTimer(0)}}
                         className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
@@ -197,25 +208,25 @@ const Home = () => {
                 title={dropdownConfigs[section][0].name}
 
                 // render dropdowns according to the dropdown config
-                inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
-                    <div key={`${config.name}-${config.type}`}>
-
-                        <div className="mt-5 mb-5">
-
-                            <Dropdown
-                                id={`${section} ${config.type}`}
-                                key={`${config.name}-${config.type}`}
-                                options={config.options}
-                                handleSelect={(value) => handleSelect(value, config.type)}
-                                type={config.type}
-                                name={config.name}
-                                required={config.required}
-                                placeholder={config.name}
-                                value={config.type === "timer" ? timer : subject}
-                            />
+                inputs={dropdownConfigs[section] 
+                    .filter(config => !(section === "random" && config.type === "subject")) 
+                    .map((config) => (
+                        <div key={`${config.name}-${config.type}`}>
+                            <div className="mt-5 mb-5">
+                                <Dropdown
+                                    id={`${section} ${config.type}`}
+                                    key={`${config.name}-${config.type}`}
+                                    options={config.options}
+                                    handleSelect={(value) => handleSelect(value, config.type)}
+                                    type={config.type}
+                                    name={config.name}
+                                    required={config.required}
+                                    placeholder={config.name}
+                                    value={config.type === "timer" ? timer : subject}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}       
+                    ))}    
             />
             
             </div>

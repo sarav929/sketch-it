@@ -7,9 +7,10 @@ const unsplash = createApi({
 
 export const fetchRandomImage = async (query) => {
   try {
-    const response = await unsplash.photos.getRandom({
-      query,
-    });
+    // If query is 'random' or falsy, fetch without a query
+    const params = query && query !== 'random' ? { query } : {};
+
+    const response = await unsplash.photos.getRandom(params);
 
     // Check if the API returned errors
     if (response.errors) {

@@ -6,7 +6,7 @@ const Form = ({ handleSubmit, inputs, section, errorMsg, title}) => {
             <h1 className="tracking-wider uppercase text-2xl text-center">{title}</h1>
 
             <form onSubmit={handleSubmit} className={`form-${section} flex-col gap-5`} noValidate>
-
+            
             {inputs.map((input, index) => (
                 <div key={index}>{input}</div> 
             ))}
