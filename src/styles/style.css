@@ -2,7 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('public\fonts\Montserrat-Italic-VariableFont_wght.ttf');
+}
+
 * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .9rem;
+    
 }
+
+body {
+  background-color: #f7f7f7;;
+}
+
+.fade-in {
+  animation: fade-in 1s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+.tabs > :first-child {
+  transform-origin: top right;
+}
+
+.tabs > :last-child {
+  transform-origin: bottom right;
+}
+

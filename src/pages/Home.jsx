@@ -5,8 +5,14 @@ import { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
+import Footer from "../components/Footer";
+
+import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-icons/react";
 
 const Home = () => {
+
+    const iconSize = 28
+    const [iconWeight, setIconWeight] = useState("thin");
 
     const navigate = useNavigate()
     const { subject, timer, setSubject, setTimer } = useAppContext();
@@ -17,8 +23,7 @@ const Home = () => {
 
     useEffect(() => {
         // Clear local storage and reset states when the home page is loaded
-        localStorage.removeItem("subject");
-        localStorage.removeItem("timer");
+        localStorage.clear();
         setSubject(null);
         setTimer(0);
     }, [setSubject, setTimer]);
@@ -29,6 +34,7 @@ const Home = () => {
     people: [
         {
         name: "People",
+        icon: <PersonSimpleRun size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "model"], 
@@ -40,9 +46,10 @@ const Home = () => {
         },
         { name: "Select Timer", type: "timer", required: true },
     ],
-    body_parts: [
+    anatomy: [
         {
-        name: "Body Parts",
+        name: "Anatomy",
+        icon: <Eye size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All"], 
@@ -58,6 +65,7 @@ const Home = () => {
     animals: [
         {
         name: "Animals",
+        icon: <Cat size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "animals"], 
@@ -74,6 +82,7 @@ const Home = () => {
     nature: [
         {
         name: "Nature",
+        icon: <Tree size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["All", "nature"], 
@@ -92,6 +101,7 @@ const Home = () => {
     buildings: [
         {
         name: "Buildings",
+        icon: <Buildings size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["Architecture", "architecture"], 
@@ -105,6 +115,7 @@ const Home = () => {
     other: [
         {
         name: "Other",
+        icon: <BowlFood size={iconSize} weight={iconWeight}/>,
         type: "subject",
         required: true,
         options: [["Still Life", "still life"], 
@@ -137,11 +148,8 @@ const Home = () => {
 
         try {
             await validationSchema.validate({ subject, timer })
-
-            // pass subject and timer to session page
             console.log(subject, timer)
             navigate("/session")
-            // reset error
             setError("");
 
         } catch (err) {
@@ -151,51 +159,68 @@ const Home = () => {
     };
 
     return (
-    <div>
 
-    <div className="tabs">
-        {Object.keys(dropdownConfigs).map((sectionKey) => {
-        const configName = dropdownConfigs[sectionKey][0].name; // Get the first config name for display
-        return (
-            <Tab
-            key={`${sectionKey}-tab`}
-            section={configName}
-            onClick={() => {setSection(sectionKey);
-                setSubject(null);
-                setTimer(0);
-            }}
-            />
-        );
-        })}
-    </div>
+    <div className="app-container flex flex-col justify-center items-center h-screen mt-2"> 
 
-        <Form
-        section={section}
-        handleSubmit={handleSubmit}
-        errorMsg={error}
+        <img src="/img/sketchit_logo.png" className="text-center lg:w-[400px]" alt="logo" />
 
-        // render dropdowns according to the dropdown config
-        inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
-            <div key={`${config.name}-${config.type}`}>
+        <div className="w-[92%] lg:w-[50%] text-center flex drop-shadow-md">
 
-            <label htmlFor={`${section} ${config.type}`} className="dropdown-label">
-                Select {config.type}
-            </label>
+            <div className="tabs flex flex-col">
+                {Object.keys(dropdownConfigs).map((sectionKey) => {
+                const config = dropdownConfigs[sectionKey][0];
+                const configName = config.name
+                const Icon = config.icon // Get the first config name for display
+                return (
+                    <Tab
+                        key={`${sectionKey}-tab`}
+                        icon={Icon}
+                        section={configName}
+                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
+                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                            ${
+                            section === sectionKey
+                                ? "opacity-100 border-r-0 scale-105 origin-right z-10"
+                                : "opacity-90 scale-100 origin-right z-0"
+                            }
+                        `}
+                    />
 
-            <Dropdown
-                id={`${section} ${config.type}`}
-                key={`${config.name}-${config.type}`}
-                options={config.options}
-                handleSelect={(value) => handleSelect(value, config.type)}
-                type={config.type}
-                name={config.name}
-                required={config.required}
-                placeholder={config.name}
-                value={config.type === "timer" ? timer : subject}
-            />
+                );
+                })}
             </div>
-        ))}       
-        />
+            <div className="bg-white flex flex-col items-center justify-center rounded-tr-lg rounded-br-lg w-full border border-l-0 border-stone-200">
+                <Form
+                section={section}
+                handleSubmit={handleSubmit}
+                errorMsg={error}
+                title={dropdownConfigs[section][0].name}
+
+                // render dropdowns according to the dropdown config
+                inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
+                    <div key={`${config.name}-${config.type}`}>
+
+                        <div className="mt-5 mb-5">
+
+                            <Dropdown
+                                id={`${section} ${config.type}`}
+                                key={`${config.name}-${config.type}`}
+                                options={config.options}
+                                handleSelect={(value) => handleSelect(value, config.type)}
+                                type={config.type}
+                                name={config.name}
+                                required={config.required}
+                                placeholder={config.name}
+                                value={config.type === "timer" ? timer : subject}
+                            />
+                        </div>
+                    </div>
+                ))}       
+            />
+            
+            </div>
+        </div>
+        <Footer></Footer>
     </div>
     );
 }

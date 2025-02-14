@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { PlayCircle, PauseCircle } from "@phosphor-icons/react";
+import Command from "./Command";
 
 const Timer = ({ timer, onRefresh }) => {
   const [remaining, setRemaining] = useState(timer * 60); 
@@ -35,14 +37,15 @@ const Timer = ({ timer, onRefresh }) => {
   };
 
   return (
-  
-    <div className="timer-wrapper">
+    <div className="timer-wrapper flex gap-3 items-center">
       <div className="timer">{formatTimer(remaining)}</div>
-      <button className="timer-toggle" onClick={toggleTimer}>
-        {isRunning ? "Pause" : "Play"}
-      </button>
+      <Command 
+        type="pause-play" 
+        Icon={isRunning ? PauseCircle : PlayCircle} 
+        onClick={toggleTimer} 
+      />
     </div>
-  )
+  );
 };
 
 export default Timer;

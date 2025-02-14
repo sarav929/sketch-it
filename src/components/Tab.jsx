@@ -1,12 +1,13 @@
-const Tab = ({section, onClick}) => {
+const Tab = ({section, onClick, icon, className}) => {
     return (
-        <button
-            className="section-tab"
-            value={section}
-            onClick={onClick}
-        > 
-        {section}
-        </button>
+            <button
+                className={className}
+                value={section}
+                onClick={onClick}
+            > 
+            <div className="section-icon w-[2rem] place-items-center">{icon}</div>
+            <div className="section-name hidden lg:block">{section}</div>
+            </button>
     )
 }
 
