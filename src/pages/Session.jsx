@@ -1,4 +1,13 @@
+import Reference from "../components/Reference";
+import Timer from "../components/Timer";
+import Command from "../components/Command";
+import { fetchRandomImage } from "../services/api";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/Context";
+import Spinner from "../components/Spinner";
+import Toggle from "../components/Switch";
+import { ArrowCircleLeft, ArrowsClockwise } from "@phosphor-icons/react";
 
 const Session = () => {
   const navigate = useNavigate();
@@ -54,23 +63,24 @@ const Session = () => {
     if (storedSubj) setSubject(storedSubj);
     if (storedTimer) setTimer(Number(storedTimer));
 
-    setIsSessionInitialized(true); // Mark session as initialized after setting state from localStorage
+    setIsSessionInitialized(true); 
   }, [setSubject, setTimer]);
 
   useEffect(() => {
-    if (isSessionInitialized && query) { // Check if session is initialized and query is valid
+    if (isSessionInitialized && query) { 
       getImage();
     }
-  }, [isSessionInitialized, query]); // Only run getImage when session is initialized and query changes
+  }, [isSessionInitialized, query]); 
 
   return (
-    <div className="session-container max-h-screen flex flex-col items-center justify-between w-full lg:w-[50vw] m-auto">
+    <div className="session-container flex flex-col items-center m-auto w-full lg:w-[60%]">
+      
       {error && (
-        <div className="m-5 text-center">
+        <div className="m-5 text-center flex flex-col justify-center items-center h-screen">
           <div className="session-error bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative flex flex-col ">
             {error}
           </div>
-          <button className="bg-white hover:bg-stone-100 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded shadow mt-4" onClick={backToHome}>
+          <button className="bg-white hover:bg-stone-100 text-stone-800 font-semibold py-2 px-4 border border-stone-400 rounded shadow mt-4 w-[40%]" onClick={backToHome}>
             Home
           </button>
         </div>            
@@ -78,7 +88,7 @@ const Session = () => {
 
       {!error && (
         <>
-          <div className="flex justify-between w-full px-5 py-4">
+          <div className="flex justify-between px-5 py-4 w-full">
             <div className="flex items-center gap-3">
               <Command type="back" Icon={ArrowCircleLeft} onClick={backToHome} />
               <Toggle 
@@ -97,7 +107,6 @@ const Session = () => {
           <div className="flex flex-col items-center flex-grow px-5 text-center">
             {loading && <Spinner />}
             {!loading && image && (
-              <div className="flex-col justify-center items-center">
                 <Reference
                   imgUrl={image.urls.full}
                   alt={image.alt_description}
@@ -106,7 +115,7 @@ const Session = () => {
                   errorMsg={error}
                   isBlackAndWhite={isBlackAndWhite}
                 />
-              </div>
+
             )}
           </div>
         </>

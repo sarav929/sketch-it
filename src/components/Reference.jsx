@@ -6,7 +6,7 @@ const Reference = ({imgUrl, alt, author, profileLink, isBlackAndWhite}) => {
 
     return (
         <>
-            <img className={`fade-in rounded-md ${isBlackAndWhite ? 'grayscale' : ''}  w-full max-w-full h-auto max-h-screen object-contain`} onLoad={() => setImageLoaded(true)} src={imgUrl} alt={alt} />
+            <img className={`fade-in rounded-md ${isBlackAndWhite ? 'grayscale' : ''}`} onLoad={() => setImageLoaded(true)} src={imgUrl} alt={alt} />
             {imageLoaded && (<p className="credits fade-in text-[.6rem] opacity-50 m-4">
                 photo by <a className="hover:opacity-20 transition-opacity duration-300 ease-in-out text-[.6rem]" href={profileLink} target="_blank" rel="noopener noreferrer">{author}</a> on Unsplash
             </p>)}
