@@ -4,9 +4,19 @@ const unsplash = createApi({
   accessKey: 'tAaH-H-00QVNwTgU5tuGQXVby4j-ZyGepHOwO84GK9U',
 });
 
-export const fetchRandomImage = async (query) => {
+export const fetchRandomImage = async (query = '') => {
   try {
-    const params = query && query !== 'random' ? { query } : {};
+    const orientations = ['portrait', 'squarish'];
+    const randomOrientation =
+      orientations[Math.floor(Math.random() * orientations.length)];
+
+    const params = {
+      orientation: randomOrientation,
+    };
+
+    if (query && query !== 'random') {
+      params.query = query;
+    }
 
     const response = await unsplash.photos.getRandom(params);
 
@@ -19,7 +29,6 @@ export const fetchRandomImage = async (query) => {
     }
 
     const image = response.response;
-    console.log(image);
     return image;
   } catch (error) {
     console.error('Error fetching image:', error);
