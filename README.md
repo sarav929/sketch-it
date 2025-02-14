@@ -1,6 +1,6 @@
 # Sketch it. - Reference Site
 
-[Live Demo](https://sketch-ghjgtwwsq-saras-projects-7a3241e2.vercel.app/)
+[Live Demo](https://sketch-it-tau.vercel.app/)
 
 Sketch It is powered by the Unsplash API and designed to help users find inspiration or reference images for their sketching sessions in a fun and interactive way. After selecting a desired subject from a variety of categories, the app will generate random related images, and users can control their session for an enhanced experience.
 
