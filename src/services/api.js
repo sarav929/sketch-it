@@ -1,19 +1,16 @@
 import { createApi } from 'unsplash-js';
 
-// Create Unsplash API instance
 const unsplash = createApi({
   accessKey: 'tAaH-H-00QVNwTgU5tuGQXVby4j-ZyGepHOwO84GK9U',
 });
 
 export const fetchRandomImage = async (query) => {
   try {
-    const response = await unsplash.photos.getRandom({
-      query,
-    });
+    const params = query && query !== 'random' ? { query } : {};
 
-    // Check if the API returned errors
+    const response = await unsplash.photos.getRandom(params);
+
     if (response.errors) {
-      // Check for specific errors like rate limit
       if (response.errors.includes('Rate limit exceeded')) {
         throw new Error('API rate limit exceeded. Please try again later.');
       } else {
@@ -21,7 +18,6 @@ export const fetchRandomImage = async (query) => {
       }
     }
 
-    // If the response is successful and contains data
     const image = response.response;
     console.log(image);
     return image;

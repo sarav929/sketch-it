@@ -6,7 +6,7 @@ const Tab = ({section, onClick, icon, className}) => {
                 onClick={onClick}
             > 
             <div className="section-icon w-[2rem] place-items-center">{icon}</div>
-            <div className="section-name hidden lg:block">{section}</div>
+            <div className="section-name hidden md:block">{section}</div>
             </button>
     )
 }

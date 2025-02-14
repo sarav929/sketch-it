@@ -7,28 +7,24 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/Context";
 import Footer from "../components/Footer";
 
-import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-icons/react";
+import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood, ScribbleLoop } from "@phosphor-icons/react";
 
 const Home = () => {
 
     const iconSize = 28
-    const [iconWeight, setIconWeight] = useState("thin");
+    const iconWeight = 'thin';
 
     const navigate = useNavigate()
     const { subject, timer, setSubject, setTimer } = useAppContext();
 
-    // state management
     const [section, setSection] = useState("people");
     const [error, setError] = useState("");
 
     useEffect(() => {
-        // Clear local storage and reset states when the home page is loaded
         localStorage.clear();
         setSubject(null);
         setTimer(0);
     }, [setSubject, setTimer]);
-
-    // sections subject dropdowns 
 
     const dropdownConfigs = {
     people: [
@@ -123,6 +119,17 @@ const Home = () => {
         },
         { name: "Select Timer", type: "timer", required: true },
     ],
+
+    random: [
+        {
+        name: "Random",
+        icon: <ScribbleLoop size={iconSize} weight={iconWeight}/>,
+        type: "subject",
+        required: true,
+        options: [],
+        },
+        { name: "Select Timer", type: "timer", required: true },
+    ],
     };
 
     // Form validation 
@@ -131,8 +138,6 @@ const Home = () => {
     subject: Yup.string().required("Please select a subject category"),
     timer: Yup.number("Please select a valid timer"),
     });
-
-    // functions
 
     const handleSelect = (value, type) => {
     setError("");
@@ -148,7 +153,6 @@ const Home = () => {
 
         try {
             await validationSchema.validate({ subject, timer })
-            console.log(subject, timer)
             navigate("/session")
             setError("");
 
@@ -160,24 +164,24 @@ const Home = () => {
 
     return (
 
-    <div className="app-container flex flex-col justify-center items-center h-screen mt-2"> 
+    <div className="app-container flex flex-col m-auto justify-center items-center h-screen"> 
 
-        <img src="/img/sketchit_logo.png" className="text-center lg:w-[400px]" alt="logo" />
+        <img src="/img/sketchit_logo.png" className="text-center w-[350px]" alt="logo" />
 
-        <div className="w-[92%] lg:w-[50%] text-center flex drop-shadow-md">
+        <div className="w-[92%] min-w-[350px] xl:w-[60%] text-center flex drop-shadow-md">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
                 const config = dropdownConfigs[sectionKey][0];
                 const configName = config.name
-                const Icon = config.icon // Get the first config name for display
+                const Icon = config.icon 
                 return (
                     <Tab
                         key={`${sectionKey}-tab`}
                         icon={Icon}
                         section={configName}
-                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
-                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                        onClick={() => { setSection(sectionKey); setSubject(sectionKey === "random" ? "Random" : null); setTimer(0)}}
+                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 md:px-4 grid grid-cols-[40px_auto] md:items-center md:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
                                 ? "opacity-100 border-r-0 scale-105 origin-right z-10"
@@ -196,31 +200,32 @@ const Home = () => {
                 errorMsg={error}
                 title={dropdownConfigs[section][0].name}
 
-                // render dropdowns according to the dropdown config
-                inputs={dropdownConfigs[section] && dropdownConfigs[section].map((config) => (
-                    <div key={`${config.name}-${config.type}`}>
-
-                        <div className="mt-5 mb-5">
-
-                            <Dropdown
-                                id={`${section} ${config.type}`}
-                                key={`${config.name}-${config.type}`}
-                                options={config.options}
-                                handleSelect={(value) => handleSelect(value, config.type)}
-                                type={config.type}
-                                name={config.name}
-                                required={config.required}
-                                placeholder={config.name}
-                                value={config.type === "timer" ? timer : subject}
-                            />
+                inputs={dropdownConfigs[section] 
+                    .filter(config => !(section === "random" && config.type === "subject")) 
+                    .map((config) => (
+                        <div key={`${config.name}-${config.type}`}>
+                            <div className="mt-5 mb-5">
+                                <Dropdown
+                                    id={`${section} ${config.type}`}
+                                    key={`${config.name}-${config.type}`}
+                                    options={config.options}
+                                    handleSelect={(value) => handleSelect(value, config.type)}
+                                    type={config.type}
+                                    name={config.name}
+                                    required={config.required}
+                                    placeholder={config.name}
+                                    value={config.type === "timer" ? timer : subject}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}       
+                    ))}    
             />
             
             </div>
         </div>
+        
         <Footer></Footer>
+        
     </div>
     );
 }

@@ -38,7 +38,7 @@ const Timer = ({ timer, onRefresh }) => {
 
   return (
     <div className="timer-wrapper flex gap-3 items-center">
-      <div className="timer">{formatTimer(remaining)}</div>
+      <div className="timer text-xl text-bold">{formatTimer(remaining)}</div>
       <Command 
         type="pause-play" 
         Icon={isRunning ? PauseCircle : PlayCircle} 
