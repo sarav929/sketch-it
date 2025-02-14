@@ -164,7 +164,7 @@ const Home = () => {
 
     return (
 
-    <div className="app-container flex flex-col m-auto justify-center items-center"> 
+    <div className="app-container flex flex-col m-auto justify-center items-center mt-3"> 
 
         <img src="/img/sketchit_logo.png" className="text-center w-[350px]" alt="logo" />
 
