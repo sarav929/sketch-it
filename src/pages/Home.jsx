@@ -17,18 +17,14 @@ const Home = () => {
     const navigate = useNavigate()
     const { subject, timer, setSubject, setTimer } = useAppContext();
 
-    // state management
     const [section, setSection] = useState("people");
     const [error, setError] = useState("");
 
     useEffect(() => {
-        // Clear local storage and reset states when the home page is loaded
         localStorage.clear();
         setSubject(null);
         setTimer(0);
     }, [setSubject, setTimer]);
-
-    // sections subject dropdowns 
 
     const dropdownConfigs = {
     people: [
