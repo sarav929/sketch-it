@@ -104,7 +104,7 @@ const Session = () => {
               </div>
             </section>
 
-            <div className="img-container-portrait w-full overflow-hidden rounded-lg aspect-[9/16] md:aspect-[4/5] 2xl:aspect-square  lg:w-[85%]">
+            <div className="img-container-portrait w-full overflow-hidden rounded-lg aspect-[9/16] md:aspect-[4/5] 2xl:aspect-square  lg:w-[85%] flex flex-col items-center">
               {loading && <Spinner />}
               {!loading && image && (
                   <Reference

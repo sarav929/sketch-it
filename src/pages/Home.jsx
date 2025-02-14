@@ -12,7 +12,7 @@ import { PersonSimpleRun, Eye, Cat, Tree, Buildings, BowlFood } from "@phosphor-
 const Home = () => {
 
     const iconSize = 28
-    const [iconWeight, setIconWeight] = useState("thin");
+    const iconWeight = 'thin';
 
     const navigate = useNavigate()
     const { subject, timer, setSubject, setTimer } = useAppContext();
@@ -160,11 +160,11 @@ const Home = () => {
 
     return (
 
-    <div className="app-container flex flex-col justify-center items-center h-screen mt-2"> 
+    <div className="app-container flex flex-col m-auto justify-center items-center h-screen"> 
 
-        <img src="/img/sketchit_logo.png" className="text-center lg:w-[400px]" alt="logo" />
+        <img src="/img/sketchit_logo.png" className="text-center w-[350px]" alt="logo" />
 
-        <div className="w-[92%] lg:w-[50%] text-center flex drop-shadow-md">
+        <div className="w-[92%] min-w-[350px] lg:w-[60%] text-center flex drop-shadow-md">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
@@ -176,7 +176,7 @@ const Home = () => {
                         key={`${sectionKey}-tab`}
                         icon={Icon}
                         section={configName}
-                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0); }}
+                        onClick={() => { setSection(sectionKey); setSubject(null); setTimer(0)}}
                         className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
@@ -220,7 +220,9 @@ const Home = () => {
             
             </div>
         </div>
+        
         <Footer></Footer>
+        
     </div>
     );
 }

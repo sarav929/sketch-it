@@ -10,7 +10,7 @@ const Form = ({ handleSubmit, inputs, section, errorMsg, title}) => {
             {inputs.map((input, index) => (
                 <div key={index}>{input}</div> 
             ))}
-            {errorMsg && (<div className="error-message text-red-700 text-xs px-4 py-3 rounded relative">{errorMsg}</div>)}
+            <div className={`error-message text-red-700 text-xs py-3 ${errorMsg ? 'visible' : 'invisible'}`}>{errorMsg}</div>
             <button type="submit" className="bg-stone-500 hover:bg-stone-700 text-white py-2 px-4 rounded-lg transition-colors duration-300 ease-in-out">Start</button>
             </form>
         </div>
