@@ -143,8 +143,6 @@ const Home = () => {
     timer: Yup.number("Please select a valid timer"),
     });
 
-    // functions
-
     const handleSelect = (value, type) => {
     setError("");
     if (type === "subject") {
@@ -159,7 +157,6 @@ const Home = () => {
 
         try {
             await validationSchema.validate({ subject, timer })
-            console.log(subject, timer)
             navigate("/session")
             setError("");
 
@@ -175,20 +172,20 @@ const Home = () => {
 
         <img src="/img/sketchit_logo.png" className="text-center w-[350px]" alt="logo" />
 
-        <div className="w-[92%] min-w-[350px] lg:w-[60%] text-center flex drop-shadow-md">
+        <div className="w-[92%] min-w-[350px] xl:w-[60%] text-center flex drop-shadow-md">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
                 const config = dropdownConfigs[sectionKey][0];
                 const configName = config.name
-                const Icon = config.icon // Get the first config name for display
+                const Icon = config.icon 
                 return (
                     <Tab
                         key={`${sectionKey}-tab`}
                         icon={Icon}
                         section={configName}
                         onClick={() => { setSection(sectionKey); setSubject(sectionKey === "random" ? "Random" : null); setTimer(0)}}
-                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 lg:px-4 grid grid-cols-[40px_auto] lg:items-center lg:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
+                        className={`section-tab border border-stone-200 w-auto h-[4rem] px-2 py-2 md:px-4 grid grid-cols-[40px_auto] md:items-center md:gap-3 place-items-center bg-white rounded-tl-lg rounded-bl-lg tab-item transition-transform duration-200 ease-in-out cursor-pointer
                             ${
                             section === sectionKey
                                 ? "opacity-100 border-r-0 scale-105 origin-right z-10"
@@ -207,7 +204,6 @@ const Home = () => {
                 errorMsg={error}
                 title={dropdownConfigs[section][0].name}
 
-                // render dropdowns according to the dropdown config
                 inputs={dropdownConfigs[section] 
                     .filter(config => !(section === "random" && config.type === "subject")) 
                     .map((config) => (

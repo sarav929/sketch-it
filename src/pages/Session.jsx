@@ -15,7 +15,7 @@ const Session = () => {
   const [resetTimer, setResetTimer] = useState(0);
   const [isBlackAndWhite, setIsBlackAndWhite] = useState(false);
 
-  const [isSessionInitialized, setIsSessionInitialized] = useState(false);  // New state to track session start
+  const [isSessionInitialized, setIsSessionInitialized] = useState(false); 
 
   const restartTimer = () => {
     setResetTimer((prev) => prev + 1);  
@@ -41,7 +41,6 @@ const Session = () => {
   const query = subject;
 
   const getImage = async () => {
-    console.log("Fetching new image...");
     setLoading(true);
     try {
       const randomImage = await fetchRandomImage(query);
