@@ -168,7 +168,7 @@ const Home = () => {
 
         <img src="/img/sketchit_logo.png" className="text-center w-[350px]" alt="logo" />
 
-        <div className="w-[92%] min-w-[350px] xl:w-[60%] text-center flex drop-shadow-md">
+        <div className="w-[92%] min-w-[350px] xl:w-[50%] text-center flex drop-shadow-md">
 
             <div className="tabs flex flex-col">
                 {Object.keys(dropdownConfigs).map((sectionKey) => {
