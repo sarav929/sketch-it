@@ -1,4 +1,4 @@
-# Sketch it. - Reference Site
+# Sketch it - Reference Site
 
 [Live Demo](https://sketch-it-tau.vercel.app/)
 
