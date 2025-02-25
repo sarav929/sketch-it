@@ -2,6 +2,11 @@
 
 [Live Demo](https://sketch-it-tau.vercel.app/)
 
+![image](https://github.com/user-attachments/assets/7d4e29cb-05b6-4042-90ed-6f8e6c12a516)
+
+![image](https://github.com/user-attachments/assets/8cff3c82-efa4-4b4b-9f19-6313109a000e)
+
+
 Sketch It is powered by the Unsplash API and designed to help users find inspiration or reference images for their sketching sessions in a fun and interactive way. After selecting a desired subject from a variety of categories, the app will generate random related images, and users can control their session for an enhanced experience.
 
 Originally built as [my final project](https://github.com/sarav929/cs50-finalproject) for CS50 using vanilla JavaScript, I've since refactored it with React for better state management and performance, and Tailwind CSS for improved styling and responsiveness. The app is now fully responsive, ensuring a seamless experience across all devices.
