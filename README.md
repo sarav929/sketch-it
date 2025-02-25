@@ -6,7 +6,7 @@ Sketch It is powered by the Unsplash API and designed to help users find inspira
 
 Originally built as [my final project](https://github.com/sarav929/cs50-finalproject) for CS50 using vanilla JavaScript, I've since refactored it with React for better state management and performance, and Tailwind CSS for improved styling and responsiveness. The app is now fully responsive, ensuring a seamless experience across all devices.
 
-I began by designing the layout on Figma, starting with mobile-first and gradually scaling up. After identifying the key components, I recreated them in React, focusing on scalability and reusability to accommodate future additions of categories or features. As an artist who loves painting and drawing, I aimed to create an app that I would personally use for sketching practice.
+I began by designing the layout on Figma ([design](https://www.figma.com/design/XcQrfC8zKYMvzFZu1RGDXw/Sketch-it?node-id=0-1&t=9VnKobKTzPtXPqx0-1)), starting with mobile-first and gradually scaling up to desktop. After identifying the key components, I recreated them in React, focusing on scalability and reusability to accommodate future additions of categories or features. As an artist who loves painting and drawing, I aimed to create an app that I would personally use for sketching practice.
 
 ### Key Features:
 - **Subject Selection**: Choose from a variety of categories or opt for a random subject.
